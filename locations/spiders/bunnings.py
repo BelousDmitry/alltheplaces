@@ -5,21 +5,26 @@ from typing import AsyncIterator, Iterable
 from scrapy import Spider
 from scrapy.http import Request, Response
 
+from locations.camoufox_spider import CamoufoxSpider
 from locations.categories import Categories, apply_category
 from locations.dict_parser import DictParser
 from locations.hours import OpeningHours
 from locations.items import Feature
+from locations.settings import DEFAULT_CAMOUFOX_SETTINGS_FOR_CLOUDFLARE_TURNSTILE
 
 
-class BunningsSpider(Spider):
+class BunningsSpider(CamoufoxSpider):
     name = "bunnings"
     allowed_domains = ["bunnings.com.au"]
     start_urls = [
         "https://api.prod.bunnings.com.au/v1/stores?latitude=-23.12&longitude=132.13&currentPage=0&fields=FULL&pageSize=10000&radius=9000000",
     ]
     item_attributes = {"brand": "Bunnings Warehouse", "brand_wikidata": "Q4997829"}
-    custom_settings = {"COOKIES_ENABLED": True, "ROBOTSTXT_OBEY": False, "ZYTE_API_EXPERIMENTAL_COOKIES_ENABLED": True}
     requires_proxy = "AU"  # Requires AU or NZ proxy, possibly residential IP addresses only.
+    captcha_type = "cloudflare_turnstile"
+    captcha_selector_indicating_success = '//link[@href="resource://content-accessible/plaintext.css"]'
+    handle_httpstatus_list = [403, 401, 500]
+    custom_settings = DEFAULT_CAMOUFOX_SETTINGS_FOR_CLOUDFLARE_TURNSTILE | {"COOKIES_ENABLED": True, "ROBOTSTXT_OBEY": False, "ZYTE_API_EXPERIMENTAL_COOKIES_ENABLED": True}
 
     async def start(self) -> AsyncIterator[Request]:
         yield Request(url="https://www.bunnings.com.au", callback=self.parse_apigee_client_id)
@@ -28,7 +33,7 @@ class BunningsSpider(Spider):
         apigee_client_id = response.text.split('"APIGEE_CLIENT_ID":"', 1)[1].split('"', 1)[0]
         nonce = "".join(secrets.choice(string.ascii_letters + string.digits) for i in range(18))
         yield Request(
-            url=f"https://authorisation.api.bunnings.com.au/External/Challenge?provider=localloopback&returnUrl=%2Fconnect%2Fauthorize%2Fcallback%3Fresponse_type%3Dtoken%26scope%3Dchk%253Aexec%2520cm%253Aaccess%2520ecom%253Aaccess%2520chk%253Apub%2520vch%253Apublic%2520%26client_id%3Dbudp_guest_user_au%26redirect_uri%3Dhttps%253A%252F%252Fwww.bunnings.com.au%252Fstatic%252Fguest.html%26nonce%3D{nonce}%26acr_values%3D",
+            url=f"https://authorisation.api.bunnings.com.au/ExternalLogin/Challenge?provider=localloopback&returnUrl=%2Fconnect%2Fauthorize%2Fcallback%3Fresponse_type%3Dtoken%26scope%3Dchk%253Aexec%2520cm%253Aaccess%2520ecom%253Aaccess%2520chk%253Apub%2520vch%253Apublic%2520%26client_id%3Dbudp_guest_user_au%26redirect_uri%3Dhttps%253A%252F%252Fwww.bunnings.com.au%252Fstatic%252Fguest.html%26nonce%3D{nonce}%26acr_values%3D",
             meta={
                 "dont_redirect": True,
                 "handle_httpstatus_list": [302],
@@ -42,7 +47,7 @@ class BunningsSpider(Spider):
         apigee_client_id = response.meta["apigee_client_id"]
         nonce = response.meta["nonce"]
         yield Request(
-            url="https://authorisation.api.bunnings.com.au/External/Callback",
+            url="https://authorisation.api.bunnings.com.au/ExternalLogin/Callback",
             meta={
                 "dont_redirect": True,
                 "handle_httpstatus_list": [302],
