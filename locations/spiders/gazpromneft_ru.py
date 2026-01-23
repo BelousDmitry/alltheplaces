@@ -67,7 +67,6 @@ SERVICES_MAPPING = {
 
 class GazpromneftRUSpider(Spider):
     name = "gazpromneft_ru"
-    requires_proxy = "RU"
 
     async def start(self) -> AsyncIterator[JsonRequest]:
         yield JsonRequest("https://gpnbonus.ru/api/stations/list", method="POST")
