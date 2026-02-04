@@ -42,7 +42,6 @@ class WellstarUSSpider(Spider):
     item_attributes = {"brand": "WellStar Health System", "brand_wikidata": "Q7981073"}
     allowed_domains = ["www.wellstar.org"]
     start_urls = ("https://www.wellstar.org/locations",)
-    requires_proxy = "US"  # Cloudflare geoblocking in use
 
     async def start(self) -> AsyncIterator[Request]:
         url = "https://www.wellstar.org/api/LocationSearchApi/GetLocations"
