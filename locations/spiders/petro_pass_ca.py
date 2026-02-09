@@ -9,7 +9,6 @@ from locations.spiders.petro_canada_ca import PetroCanadaCASpider
 class PetroPassCASpider(PetroCanadaCASpider):
     name = "petro_pass_ca"
     item_attributes = {"brand": "Petro-Pass"}  # TODO: add brand_wikidata when available
-    requires_proxy = True
     start_urls = [
         "https://www.petro-canada.ca/api/petrocanadabusiness/getCardlockLocations?fuel&hours&limit=10000000&place&province&range=10000000&service",
     ]
