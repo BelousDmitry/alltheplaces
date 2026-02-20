@@ -8,7 +8,6 @@ class FranprixFRSpider(Spider):
     name = "franprix_fr"
     item_attributes = {"brand": "Franprix", "brand_wikidata": "Q2420096"}
     start_urls = ["https://www.franprix.fr/xhr-cache/resource/stores"]
-    requires_proxy = True
 
     def parse(self, response):
         data = response.json()
