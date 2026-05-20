@@ -17,7 +17,6 @@ class TeslaSpider(Spider):
     name = "tesla"
     TESLA_ATTRIBUTES = {"brand": "Tesla", "brand_wikidata": "Q478214"}
     TESLA_SUPERCHARGER_ATTRIBUTES = {"brand": "Tesla Supercharger", "brand_wikidata": "Q17089620"}
-    requires_proxy = True
     custom_settings = {"DOWNLOAD_TIMEOUT": 60}
 
     async def start(self) -> AsyncIterator[Request]:
