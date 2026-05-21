@@ -28,7 +28,6 @@ class SpecsaversSpider(Spider):
         "www.specsavers.se",
         "www.louisnielsen.dk",
     ]
-    requires_proxy = True
 
     async def start(self) -> AsyncIterator[JsonRequest]:
         for domain in self.allowed_domains:
