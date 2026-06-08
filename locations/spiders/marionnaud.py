@@ -19,7 +19,6 @@ class MarionnaudSpider(JSONBlobSpider):
     ]
     locations_key = "stores"
     custom_settings = {"USER_AGENT": BROWSER_DEFAULT}
-    requires_proxy = True
     needs_json_request = True
 
     def pre_process_data(self, location):
