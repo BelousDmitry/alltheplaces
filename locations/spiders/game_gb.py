@@ -29,7 +29,6 @@ class GameGBSpider(CrawlSpider, StructuredDataSpider):
     start_urls = ["https://www.game.co.uk/stores/all"]
     rules = [Rule(LinkExtractor(allow=r"store-[\d]+$"), callback="parse_sd")]
     custom_settings = {"DOWNLOAD_TIMEOUT": 10, "DOWNLOAD_DELAY": 2}
-    requires_proxy = True
 
     def post_process_item(self, item, response, ld_data, **kwargs):
         item["branch"] = item.pop("name").removeprefix("Game ")
