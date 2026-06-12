@@ -13,7 +13,6 @@ class McdonaldsMTSpider(Spider):
     name = "mcdonalds_mt"
     item_attributes = McdonaldsSpider.item_attributes
     start_urls = ["https://mcdonalds.com.mt/locate/"]
-    requires_proxy = True
 
     def parse(self, response: Response, **kwargs: Any) -> Any:
         yield FormRequest(
