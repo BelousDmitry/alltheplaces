@@ -17,7 +17,6 @@ class A101TRSpider(Spider):
     #       5k locations instead of 13k.
     name = "a101_tr"
     item_attributes = {"brand": "A101", "brand_wikidata": "Q6034496"}
-    requires_proxy = True
     custom_settings = {
         "CONCURRENT_REQUESTS": 1,
         "DOWNLOAD_DELAY": 1,
