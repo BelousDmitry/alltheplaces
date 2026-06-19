@@ -11,7 +11,6 @@ class CarpetCourtAUSpider(Spider):
     item_attributes = {"brand": "Carpet Court", "brand_wikidata": "Q117156437"}
     allowed_domains = ["www.carpetcourt.com.au"]
     start_urls = ["https://www.carpetcourt.com.au/stores"]
-    requires_proxy = "AU"
 
     def parse(self, response):
         locations = json.loads(
