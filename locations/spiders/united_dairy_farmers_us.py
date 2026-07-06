@@ -16,7 +16,6 @@ class UnitedDairyFarmersUSSpider(StructuredDataSpider):
     search_for_facebook = False
     search_for_twitter = False
     search_for_email = False
-    requires_proxy = True
     no_refs = True
 
     def post_process_item(self, item: Feature, response: TextResponse, ld_data: dict, **kwargs) -> Iterable[Feature]:
