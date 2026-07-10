@@ -11,7 +11,6 @@ class SamsClubSpider(Spider):
     start_urls = [
         "https://www.samsclub.com/api/node/vivaldi/browse/v2/clubfinder/list?singleLineAddr=USA&distance=50000&nbrOfStores=1000"
     ]
-    requires_proxy = True
 
     def parse(self, response):
         for store in response.json():
