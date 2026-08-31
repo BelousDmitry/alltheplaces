@@ -14,7 +14,6 @@ class BlackstoreFRSpider(Spider):
     item_attributes = {"brand": "Blackstore", "brand_wikidata": "Q125446765"}
     start_urls = ["https://www.blackstore.fr/store-finder/"]
     custom_settings = {"USER_AGENT": BROWSER_DEFAULT}
-    requires_proxy = "FR"
 
     def parse(self, response, **kwargs):
         js_blob = response.xpath('//script/text()[contains(., "var locationsMap")]').get()
