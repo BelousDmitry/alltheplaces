@@ -13,7 +13,6 @@ class InpostITSpider(JSONBlobSpider):
     allowed_domains = ["inpost.it"]
     start_urls = []  # ["https://inpost.it/sites/default/files/points.json"]
     locations_key = "items"
-    requires_proxy = True
 
     operator = {"operator": "InPost", "operator_wikidata": "Q3182097"}
     brand_locker = {"brand": "InPost", "brand_wikidata": "Q3182097"}
